@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
+
+
+
+
+    <!-- LinearLayout to contain TextInputLayout and MaterialButton -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/search_layout"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true">
+
+        <!-- Search Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            android:layout_width="300dp"
+            app:boxStrokeColor="@color/light_green"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/light_green"
+            android:layout_height="wrap_content"
+            android:hint="Type Restaurant Name Here"
+            android:layout_marginEnd="10dp"> <!-- margin to create space between TextInput and Button -->
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/main_TIE_searchRestaurant"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Search Button -->
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/main_BTN_search"-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:drawableLeft="@drawable/search"-->
+<!--            android:padding="10dp" />-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/main_BTN_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_green"
+            android:text="@string/search"
+            android:textColor="@color/white"
+            android:drawablePadding="8dp"
+            android:textSize="16dp"
+            app:cornerRadius="12dp"
+            android:padding="12dp" />
+    </LinearLayout>
+
+</RelativeLayout>

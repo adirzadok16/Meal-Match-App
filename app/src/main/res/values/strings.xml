@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">finalProject-MealMatchApp</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="organization">Organization</string>
+    <string name="choose_your_acount_type">Choose your acount type</string>
+    <string name="sign_in">Sign In</string>
+    <string name="upload_your_business_certificate">Upload your business certificate</string>
+    <string name="sign_up">Sign up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="type_of_resturants">Type : Asian, Italian , Bakery....</string>
+    <string name="Phone_Number">Phone Number : 10 digits starts with 05</string>
+    <string name="restaurant_checkbox">Restaurant</string>
+    <string name="organization_checkBox">Organization</string>
+    <string name="email">Email</string>
+    <string name="mealmatch">MealMatch</string>
+    <string name="password">Password</string>
+    <string name="select">Select</string>
+    <string name="remove">Remove</string>
+    <string name="update">Update</string>
+    <string name="donation_description">Donation Description</string>
+    <string name="donation_amount">x2</string>
+    <string name="restaurant_name">Restaurant Name</string>
+    <string name="add">Add</string>
+    <string name="pickup_donation">pickUp Donation</string>
+    <string name="log_out">Log Out</string>
+    <string name="search">Search</string>
+    <string name="pick_up_on_the_way_to_you">Pick Up On The Way To You!</string>
+    <string name="new_donation">New Donation</string>
+    <string name="title">Title</string>
+    <string name="amount">Amount</string>
+    <string name="open">OPEN</string>
+    <string name="search_for_restaurants">Search For Restaurants</string>
+    <string name="my_orders">My Orders</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_green">#80E27E</color>
+    <color name="your_checked_color">#80E27E</color>  <!-- Example color for checked state -->
+    <color name="your_unchecked_color">#FF000000</color> <!-- Example color for unchecked state -->
+</resources>
+

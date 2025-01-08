@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "754505169829",
+    "firebase_url": "https://mealmatch-57cf9-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mealmatch-57cf9",
+    "storage_bucket": "mealmatch-57cf9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754505169829:android:96ed77fbb5e234462f464c",
+        "android_client_info": {
+          "package_name": "com.example.finalproject_mealmatchapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUKuLVgm2NTLXoQD8d-W_M7piBhqs7_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

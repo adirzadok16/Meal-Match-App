@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Image at the Start -->
+<!--        <ImageView-->
+<!--            android:id="@+id/donation_IMG_icon"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:contentDescription="donation_photo" />-->
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <!-- Title and Amount in Horizontal LinearLayout -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start">
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/donation_LBL_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Donation Title"
+                android:textStyle="bold"
+                android:textSize="24sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/donation_LBL_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/donation_amount"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <!-- Description -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/donation_LBL_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/donation_description"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp" />
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:id="@+id/donation_BTNS_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/donation_BTN_update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/update"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:layout_marginEnd="2dp"
+                app:backgroundTint="@color/light_green"
+                app:cornerRadius="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/donation_BTN_remove"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/remove"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+
+                app:backgroundTint="@color/light_green"
+                app:cornerRadius="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/donation_BTN_viewImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Image"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:layout_marginStart="2dp"
+                app:backgroundTint="@color/light_green"
+                app:cornerRadius="12dp" />
+
+
+
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/donation_BTN_pickUp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="pickUp Donation"-->
+<!--                android:textColor="@color/white"-->
+<!--                app:backgroundTint="#80E27E"-->
+<!--                android:visibility="gone"-->
+<!--                app:cornerRadius="12dp" />-->
+
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/donation_BTN_pickUp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/pickup_donation"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:visibility="gone"-->
+<!--                app:backgroundTint="#80E27E"-->
+<!--                app:cornerRadius="12dp" />-->
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+
+    </androidx.cardview.widget.CardView>
