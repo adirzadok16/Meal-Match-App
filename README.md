@@ -67,7 +67,7 @@ select user Type for sigh in:
 - **Open And Close hours:** Provide the opening and closing times of the restaurant.
 
 **For organization:**
-- **Restaurant Name:** Enter the user's full name.
+- **Restaurant Name:** Enter the Restaurant's full name.
 - **Email:** Provide a valid email address for account identification.
 - **Password:** Securely input the password for authentication.
 - **Phone Number:** Input a contact number for communication.
@@ -91,7 +91,8 @@ The Restaurant Home Page in the MealMatch app offers restaurant users the follow
 - **Add New Donation:** This option allows restaurants to donate food or meals to charitable organizations.
 - **Update Existing Donation:** This option allows restaurant to update donation if there are any changes.
 - **Remove Donation:** This option allows restaurants to remove donated food if neccesery.
-- **View Notifications:** RThis option allows restaurant to see  notifications whenever a charity has a pickup for their donation.
+- **View Notifications:** This option allows restaurant to see  notifications whenever a charity has a pickup for their donation.
+- **Log Out:** Log out from the user and back to Login Activity.
   
 ָָָָ**User Inputs:**
 
@@ -105,7 +106,35 @@ The Restaurant Home Page in the MealMatch app offers restaurant users the follow
 - **Donation Amount:**  Specify the current quantity of the food being donated.
 
 
-<img src="https://github.com/user-attachments/assets/6c1d192a-9462-4334-a428-cc20a0ae18c0" width="200" height="400"> <img src="https://github.com/user-attachments/assets/f2dc6d65-0c24-4446-9864-3710179f2492" width="200" height="400">  <img src="https://github.com/user-attachments/assets/4393fea4-181a-4f5a-ab42-53601de1ba02" width="200" height="400"> <img src="https://github.com/user-attachments/assets/4393fea4-181a-4f5a-ab42-53601de1ba02" width="200" height="400">
+<img src="https://github.com/user-attachments/assets/6c1d192a-9462-4334-a428-cc20a0ae18c0" width="200" height="400"> <img src="https://github.com/user-attachments/assets/4393fea4-181a-4f5a-ab42-53601de1ba02" width="200" height="400"> <img src="https://github.com/user-attachments/assets/3ab02d33-f648-4d99-ba36-f280a14d9579" width="200" height="400">   <img src="https://github.com/user-attachments/assets/4308a35b-936c-45c7-9996-2fb6dc2f2a26" width="200" height="400">
 
 
+## Organization Home Screen
+restaurant home in MealMatch App Screen Contain: two fragments one for searching for a restaurant and the second for the restaurants found in the search.
+**Actions:**
+- **Log Out:** Log out from the user and back to Login Activity.
+- **View Order History:** This option allows organization to see their order history.
+- **Search For A Restaurant:** This option allows charities to search for restaurants who want to donate.
+- **Select A Restaurant:** This option allows charities to select restaurant and see the donations it offers.
+
+**User Inputs:**
+**For Search For A Restaurant:**
+- **Restaurant Name:** Enter the restaurant's name you looking for.
+
+
+<img src="https://github.com/user-attachments/assets/503095ec-c545-4a50-be4a-bb0cc94fc9cf" width="200" height="400"> <img src="https://github.com/user-attachments/assets/c9715c1d-0975-4639-bfcf-ec017f508c17" width="200" height="400">
+
+## Restaurant's Donation List (Navigate From Organization Home Screen)
+The Restaurant's Donation List in the MealMatch app shows the donationList of a restaurant that the charity user picks.
+
+**Actions:**
+- **Log Out:** Log out from the user and back to Login Activity.
+- **Previus Screen:** move to Organization Home Screen(previous Activity).
+-  **Select A Donation:** This option allows charities to select donation and quantity from the restaurant the user picks.
+
+**User Inputs:**
+- **Amount:** Enter the amount of units you want from specific donation.
+
+
+<img src="https://github.com/user-attachments/assets/9e29fc30-bf2b-41cd-9297-110eaaf77167" width="200" height="400"> <img src="https://github.com/user-attachments/assets/713a1f0c-977a-4d20-bc45-1878354dc329" width="200" height="400">
 
