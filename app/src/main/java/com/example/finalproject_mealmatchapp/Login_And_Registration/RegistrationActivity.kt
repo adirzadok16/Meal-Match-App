@@ -61,8 +61,7 @@ class RegistrationActivity : AppCompatActivity() {
         val password = binding.etPassword.text.toString()
         val phoneNumber = binding.etPhoneNumber.text.toString()
         val address = binding.etAddress.text.toString()
-        val open = binding.openHourSpinner.selectedItem.toString()
-        val close =  binding.closeHourSpinner.selectedItem.toString()
+
 
         if(userType =="ORGANIZATION"){
              val addedOrganization = userManager.addOrganizationUser(
@@ -79,7 +78,8 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         if(userType == "RESTAURANT"){
-            Log.d("HERE","")
+            val open = binding.openHourSpinner.selectedItem.toString()
+            val close =  binding.closeHourSpinner.selectedItem.toString()
             val type = binding.etType.text.toString()
             val addedRestaurant = userManager.addRestaurantUser(
                 name = name,
@@ -171,37 +171,6 @@ class RegistrationActivity : AppCompatActivity() {
         }
         return hours
     }
-
-//    private fun generateHours(start: Int, end: Int): List<String> {
-//        val hours = mutableListOf<String>()
-//
-//        if (start < end) {
-//            // Normal case (e.g., 12:00 to 21:00)
-//            for (i in start until end) {
-//                hours.add("$i:00")
-//            }
-//        } else {
-//            // Case where time crosses midnight (e.g., 13:00 to 02:00)
-//            for (i in start..23) { // From start hour to the end of the day
-//                hours.add("$i:00")
-//            }
-//            for (i in 0 until end) { // From midnight to end hour
-//                hours.add("0$i:00")
-//            }
-//        }
-//
-//        return hours
-//    }
-
-//    private fun uploadResturantCertificate(name: String , ) {
-//        val storageRef = FirebaseStorage.getInstance().reference.child("restaurants/$name")
-//    }
-//
-//    private fun uploadOrganizaionCertificate(name: String) {
-//        Log.d("A" , "ORGANIZATION" )
-//    }
-
-
 
 
 }

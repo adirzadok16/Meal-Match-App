@@ -2,10 +2,15 @@ package com.example.finalproject_mealmatchapp.Utilities
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.finalproject_mealmatchapp.Models.OrganizationUser
 import com.example.finalproject_mealmatchapp.Models.RestaurantUser
 import com.example.finalproject_mealmatchapp.Organization.OrganizationHomePage
@@ -104,7 +109,7 @@ class UserManager {
     ): Boolean {
 
 
-        var organiaztions_ref = initDBConnectionRef("organization_users")
+        val organiaztions_ref = initDBConnectionRef("organization_users")
 
 
         val organizationUser = OrganizationUser(
@@ -159,9 +164,11 @@ class UserManager {
                         }
                     } else{
                         if(userType == "restaurant_users"){
+                            vibrate(context)
                             Toast.makeText(context, "There is no restaurant as : $name", Toast.LENGTH_SHORT).show()
                         }
                         if(userType == "organization_users"){
+                            vibrate(context)
                             Toast.makeText(context, "\"There is no organization as : $name\"", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -285,6 +292,25 @@ class UserManager {
 
     private fun initDBConnectionRef(path: String) :DatabaseReference{
         return database.getReference(path)
+    }
+
+
+    private fun vibrate(context : Context) {
+        val v = context.getSystemService(VIBRATOR_SERVICE) as Vibrator
+
+        // Vibrate for VIBRATE_DURATION milliseconds
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(
+                VibrationEffect.createOneShot(
+                    300,
+                    VibrationEffect.DEFAULT_AMPLITUDE
+                )
+            )
+        } else {
+            //deprecated in API 26
+            v.vibrate(300)
+        }
+
     }
 
 }
