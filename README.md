@@ -1,7 +1,7 @@
 # **Meal Match App**
 
 ## **Project Overview**
-The Charity-Restaurant Connector is an Android application developed in Kotlin to facilitate collaboration between restaurants and charities. This app aims to optimize the redistribution of surplus food and resources, promoting sustainability and supporting communities in need.
+The Meal Match App is an Android application developed in Kotlin to facilitate collaboration between restaurants and charities. This app aims to optimize the redistribution of surplus food and resources, promoting sustainability and supporting communities in need.
 
 ## **App Icon**
 ![icon](https://github.com/user-attachments/assets/178f0753-34ac-447e-bc35-2658c7eb2bca)
