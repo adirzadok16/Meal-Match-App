@@ -107,16 +107,12 @@ class RegistrationActivity : AppCompatActivity() {
     private fun fitLayout(userType: String) {
         if(userType == "ORGANIZATION"){
             binding.tilRestaurantName.hint = "Organization Name"
-//            binding.btnUploadCertificate.text =  "Upload your organization certificate"
             binding.tiltype.visibility = View.GONE
             binding.OpenAndClose.visibility = View.GONE
-//            binding.btnUploadCertificate.setOnClickListener { uploadOrganizaionCertificate(binding.etName.text.toString()) }
         } else if (userType == "RESTAURANT"){
             binding.OpenAndClose.visibility = View.VISIBLE
             binding.tilRestaurantName.hint =  "Restaurant Name"
-//            binding.btnUploadCertificate.text = "Upload your restaurant certificate"
             setupTimeSpinners()
-//            binding.btnUploadCertificate.setOnClickListener { uploadResturantCertificate(binding.etName.text.toString()) }
         }
     }
 

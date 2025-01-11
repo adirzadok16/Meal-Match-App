@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject_mealmatchapp.Adapters.OrderAdapter
@@ -16,6 +17,7 @@ import com.example.finalproject_mealmatchapp.Organization.Organization_Callbacks
 import com.example.finalproject_mealmatchapp.Organization.Organization_Fragments.RestaurantListFrangment
 import com.example.finalproject_mealmatchapp.Organization.Organization_Fragments.SearchRestaurantFragment
 import com.example.finalproject_mealmatchapp.R
+import com.example.finalproject_mealmatchapp.Utilities.SharedPreferencesManagerV3
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.database.DataSnapshot
@@ -37,10 +39,14 @@ class OrganizationHomePage : AppCompatActivity() {
     private lateinit var main_LBL_headline : MaterialTextView
     private  lateinit var main_RV_orderList : RecyclerView
     private  lateinit var main_BTN_MyOrders : MaterialButton
+    private  lateinit var main_BTN_closeWelcomeScreen : MaterialButton
+    private lateinit var main_CARD_welcomeCard : CardView
+    private lateinit var main_MTV_welcomeText : MaterialTextView
     private lateinit var organizationRef : DatabaseReference
     var database: FirebaseDatabase = Firebase.database
     var organizationUserName :String = ""
     var orderAdapter = OrderAdapter()
+    var again :String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,15 +55,11 @@ class OrganizationHomePage : AppCompatActivity() {
         enableEdgeToEdge()
         val bundle: Bundle? = intent.extras
         organizationUserName = bundle?.getString("user_name").toString()
+        again = bundle?.getString("notFirstTime").toString()
         findViews()
         initViews()
         bringOrdersFromFirebaseToOrderAdapter()
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        bringOrdersFromFirebaseToOrderAdapter() // Fetch the orders again
-//    }
 
     private fun findViews() {
         main_FRAME_search = findViewById(R.id.main_FRAME_search)
@@ -66,9 +68,16 @@ class OrganizationHomePage : AppCompatActivity() {
         main_RV_orderList = findViewById(R.id.main_RV_orderList)
         main_BTN_MyOrders = findViewById(R.id.main_BTN_MyOrders)
         main_LBL_headline = findViewById(R.id.main_LBL_headline)
+        main_BTN_closeWelcomeScreen = findViewById(R.id.main_BTN_closeWelcomeScreen)
+        main_CARD_welcomeCard = findViewById(R.id.main_CARD_welcomeCard)
+        main_MTV_welcomeText= findViewById(R.id.main_MTV_welcomeText)
     }
 
     private fun initViews() {
+        if(again == "yes"){
+            main_CARD_welcomeCard.visibility =View.GONE
+        }
+        main_MTV_welcomeText.setText("Welcome $organizationUserName")
         searchRestaurantFragment = SearchRestaurantFragment()
         organizationRef = database.getReference("organization_users").child(organizationUserName)
         searchRestaurantFragment.callbackSearchRestaurantItemClicked = object :
@@ -79,18 +88,7 @@ class OrganizationHomePage : AppCompatActivity() {
             }
 
         main_BTN_MyOrders.setOnClickListener { WindowActions() }
-
-
-
-//        searchRestaurantFragment.callback_returnToLoginActivity = object :
-//            CallBack_returnToLoginActivity {
-//            override fun returnToLoginActivity() {
-//              var intent =Intent(this@OrganizationHomePage,LoginActivity::class.java)
-//                startActivity(intent)
-//                finish()
-//            }
-//        }
-
+        main_BTN_closeWelcomeScreen.setOnClickListener { main_CARD_welcomeCard.visibility = View.GONE }
         restaurantListFragment = RestaurantListFrangment()
         restaurantListFragment.organizationUserName = this.organizationUserName
 
@@ -111,14 +109,6 @@ class OrganizationHomePage : AppCompatActivity() {
     }
 
     private fun WindowActions() {
-
-//        private fun moveToNotifications() {
-//        val intent = Intent(this,RestaurantNotifications::class.java)
-//        val bundle = Bundle()
-//        bundle.putString("user_name",restaurantUserName)
-//        intent.putExtras(bundle)
-//        startActivity(intent)
-//        finish()
             if(main_RV_orderList.visibility == View.VISIBLE) {
                 main_RV_orderList.visibility = View.GONE
                 main_FRAME_search.visibility = View.VISIBLE
@@ -126,7 +116,6 @@ class OrganizationHomePage : AppCompatActivity() {
                 main_LBL_headline.visibility = View.VISIBLE
 
             } else if(main_RV_orderList.visibility == View.GONE) {
-//                bringOrdersFromFirebaseToOrderAdapter()
                 main_RV_orderList.visibility = View.VISIBLE
                 main_FRAME_search.visibility = View.GONE
                 main_FRAME_restaurantList.visibility = View.GONE
@@ -134,9 +123,9 @@ class OrganizationHomePage : AppCompatActivity() {
 
             }
         }
-//    }
 
     private fun returnToLoginActivity() {
+        SharedPreferencesManagerV3.getInstance().putBoolean("isLoggedIn",false)
         val intent =Intent(this,LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

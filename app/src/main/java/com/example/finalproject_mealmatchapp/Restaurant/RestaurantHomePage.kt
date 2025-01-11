@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -23,6 +24,7 @@ import com.example.finalproject_mealmatchapp.Restaurant.Resturant_Callbacks.Call
 import com.example.finalproject_mealmatchapp.Restaurant.Resturant_Callbacks.CallBack_removeDonation
 import com.example.finalproject_mealmatchapp.Utilities.DB_Manager
 import com.example.finalproject_mealmatchapp.Utilities.ImageLoader
+import com.example.finalproject_mealmatchapp.Utilities.SharedPreferencesManagerV3
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.imageview.ShapeableImageView
@@ -86,6 +88,7 @@ class RestaurantHomePage : AppCompatActivity() {
     var NewNotificationCount = 0
     private val PICK_IMAGE_REQUEST = 1
     private var imageUri: Uri? = null
+    val storage = FirebaseStorage.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,8 +100,6 @@ class RestaurantHomePage : AppCompatActivity() {
         findViews()
         initViews()
         updateNotificationNumber()
-//        bringDonationsFromFireBaseToAdapter()
-//        bringNotificationsFromFirebaseToAdapter()
     }
 
 
@@ -119,8 +120,6 @@ class RestaurantHomePage : AppCompatActivity() {
                     }
                 }
 
-                // Perform further actions with notificationsList or num if needed
-                // For example: update a UI element with the new num value
                 if(NewNotificationCount ==0){
                     main_BTN_Notification.text = ""
                 } else {
@@ -200,35 +199,11 @@ class RestaurantHomePage : AppCompatActivity() {
             main_CARD_UpdateAmount.visibility = View.GONE
 
         }
-//        main_BTN_NotificationClose.setOnClickListener{notificationWindowChanges("close")}
-//        donation_BTN_pickUp.setOnClickListener{}
-
     }
 
-//        private fun getNotificationCount() {
-//
-//            val notificationCountRef = restaurantRef.child("newNotificationCount")
-//
-//            notificationCountRef.get().addOnSuccessListener { snapshot ->
-//                if (snapshot.exists()) {
-//                    val notificationCount = snapshot.getValue(Int::class.java) ?: 0
-//                    main_BTN_Notification.text = notificationCount.toString()
-//                    notificationCountRef.setValue(0)
-//                } else {
-//                    Log.d("Firebase ERROR", "Notification count does not exist.")
-//                }
-//            }.addOnFailureListener { e ->
-//                Log.e("Firebase ERROR", "Error fetching notification count", e)
-//            }
-//        }
+
 
     private fun moveToNotifications() {
-//        val intent = Intent(this,RestaurantNotifications::class.java)
-//        val bundle = Bundle()
-//        bundle.putString("user_name",restaurantUserName)
-//        intent.putExtras(bundle)
-//        startActivity(intent)
-//        finish()
         if(main_RV_notificationList.visibility == View.VISIBLE) {
             main_RV_notificationList.visibility = View.GONE
             main_RV_donationList.visibility = View.VISIBLE
@@ -255,7 +230,8 @@ class RestaurantHomePage : AppCompatActivity() {
     }
 
     private fun returnToLoginActivity() {
-      val intent = Intent(this,LoginActivity::class.java)
+        SharedPreferencesManagerV3.getInstance().putBoolean("isLoggedIn",false)
+        val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
@@ -269,7 +245,7 @@ class RestaurantHomePage : AppCompatActivity() {
 
     private fun uploadImageToFirebase(photoName : String) {
         if (imageUri != null) {
-            val storageRef = FirebaseStorage.getInstance().reference.child("restaurants/$restaurantUserName/$photoName.jpg")
+            val storageRef = FirebaseStorage.getInstance().reference.child("restaurants/$restaurantUserName/$photoName")
             val uploadTask = storageRef.putFile(imageUri!!)
 
             uploadTask.addOnSuccessListener {
@@ -325,16 +301,6 @@ class RestaurantHomePage : AppCompatActivity() {
             Log.e("Firebase", "Error fetching donations: ", error)
             adapter.updateDonations(emptyList()) // Handle error by clearing adapter
         }
-
-//        // Update adapter list
-//        val updatedDonations = addDonationAdapter.donations.toMutableList()
-//        updatedDonations.add(new_donation)
-//        addDonationAdapter.donations = updatedDonations
-//        getListOfDonationFromFireBase()
-//
-//        // Notify the adapter to update the RecyclerView
-//        addDonationAdapter.notifyDataSetChanged()
-
     }
 
     private fun checkFields(title: String, amonut: String, description: String, imageUri: Uri?) : Boolean {
@@ -355,7 +321,16 @@ class RestaurantHomePage : AppCompatActivity() {
         donation_TIE_description.setText("")
     }
     private fun deleteDonation() {
-//        val restaurantRef = initDataBaseToRestaurant(userName)
+        val photoRef: StorageReference = storage.reference.child("restaurants/$restaurantUserName/${donationPicked?.title}")
+        photoRef.delete()
+            .addOnSuccessListener {
+                // File deleted successfully
+                Log.d("remove image from storage", "File successfully deleted!")
+            }
+            .addOnFailureListener { exception ->
+                // If an error occurred during deletion
+                Log.e("remove image from storage", "Error deleting file: ${exception.message}")
+            }
         restaurantRef.child("donationList").child(donationPicked!!.title).removeValue()
             .addOnSuccessListener {
                 removeImageFromStorage(donationPicked!!.title)
@@ -404,12 +379,6 @@ class RestaurantHomePage : AppCompatActivity() {
 
     private fun updateDonationClicked() {
         setValuesInFireBase()
-        // donationPicked!!.title = donation_TIE_title.text.toString()
-        // if(donation_TIE_amount.text.toString().isNotEmpty()){
-        //    donationPicked!!.amount = Integer.parseInt( donation_TIE_amount.text.toString())
-        // }
-        // donationPicked!!.description = donation_TIE_description.text.toString()
-
         restaurantRef = db_manager.initDataBaseToRestaurant(restaurantUserName)
         restaurantRef.child("donationList").addValueEventListener(object :
             ValueEventListener { // For realtime data fetching from DB
@@ -433,38 +402,22 @@ class RestaurantHomePage : AppCompatActivity() {
             }
         })
 
-        donation_TIE_UpdateAmount.setText("")
+        donation_TIE_UpdateAmount.setText("0")
         main_CARD_UpdateAmount.visibility = View.GONE
     }
 
     private fun setValuesInFireBase() {
-//        val restaurantRef = initDataBaseToRestaurant(userName)
-        //Update donation title
-//        val title = donation_TIE_title.text.toString();
-        val amount = donation_TIE_UpdateAmount.text.toString();
-//        val description = donation_TIE_title.text.toString();
-//
-//        if (title.trim().isNotEmpty()) {
-//            restaurantRef.child("donationList")
-//                .child(donationPicked!!.title)
-//                .child("title")
-//                .setValue(title)
-//        }
+        val amount  = donation_TIE_UpdateAmount.text.toString().toInt()
         //Update donation amount
-        if(amount.toInt() > 0){
+        if(amount > 0){
             restaurantRef.child("donationList")
                 .child(donationPicked!!.title)
                 .child("amount")
-                .setValue(amount.toInt())
+                .setValue(amount)
+        } else{
+            Toast.makeText(this,"Enter a number greater then 0",Toast.LENGTH_SHORT).show()
         }
         //Update donation description
-
-//        if(description.trim().isNotEmpty()){
-//            restaurantRef.child("donationList")
-//                .child(donationPicked!!.title)
-//                .child("description")
-//                .setValue(description)
-//        }
 
     }
 
@@ -476,14 +429,9 @@ class RestaurantHomePage : AppCompatActivity() {
         main_RV_donationList.layoutManager = linearLayoutManager
         adapter.updateDonationCallback = object : CallBack_UpdateDonation {
             override fun updateDonation(donation: Donation, position: Int) {
-//                donation_BTN_add.visibility = View.GONE
-//                donation_BTN_update.visibility = View.VISIBLE
-//                donation_LBL_headline.setText("Update Donation")
-//                main_CARD_newDonation.visibility = View.VISIBLE
                 main_CARD_UpdateAmount.visibility = View.VISIBLE
                 positionDonation = position
                 donationPicked = donation
-                //updateDonationClicked()
             }
         }
 
@@ -492,7 +440,6 @@ class RestaurantHomePage : AppCompatActivity() {
                 main_CARD_newDonation.visibility = View.GONE
                 donation_BTN_add.visibility = View.VISIBLE
                 donation_BTN_update.visibility = View.GONE
-                donation_BTN_addPhoto.visibility = View.GONE
                 donationPicked = donation
                 deleteDonation()
             }
@@ -505,7 +452,7 @@ class RestaurantHomePage : AppCompatActivity() {
                 val storageReference =  storage.reference
                     .child("restaurants")
                     .child(restaurantUserName)
-                    .child("${donation.title}.jpg")// Example path
+                    .child("${donation.title}")// Example path
                 ImageLoader.getInstance().loadFromFirebaseStorage(storageReference,main_IV_imegeView)
             }
         }
@@ -525,9 +472,6 @@ class RestaurantHomePage : AppCompatActivity() {
                         donationsList.add(donation)
                     }
                 }
-//                Log.d("VALUE",donationsList.toString())
-
-//                if (donationsList != null) {
                     adapter.donations = donationsList
                    adapter.restaurant_name = restaurantUserName
                     adapter.notifyDataSetChanged()
@@ -537,9 +481,6 @@ class RestaurantHomePage : AppCompatActivity() {
                 linearLayoutManager.orientation = RecyclerView.VERTICAL
                 main_RV_donationList.layoutManager = linearLayoutManager
 
-//                }
-//                else
-//                    addDonationAdapter = AddDonationAdapter(emptyList())
             }
 
 
@@ -599,27 +540,3 @@ class RestaurantHomePage : AppCompatActivity() {
         })
     }
 }
-
-
-//    private fun notificationWindowChanges(action: String) {
-//        if(action == "open"){
-//            main_CARD_Notifications.visibility = View.VISIBLE
-//        }
-//        if(action == "close"){
-//            main_CARD_Notifications.visibility = View.GONE
-//        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

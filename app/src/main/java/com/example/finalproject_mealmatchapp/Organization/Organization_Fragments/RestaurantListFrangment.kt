@@ -65,14 +65,14 @@ class RestaurantListFrangment : Fragment() {
                     restaurantAdapter = RestaurantAdapter(restaurants)
                     restaurantAdapter.callBack_selectRestaurant = object : CallBack_selectRestaurant {
                         override fun selectRestaurant(restaurantUser: RestaurantUser, position: Int) {
-                            checkTimeForPickUp(restaurantUser , context)
+//                            checkTimeForPickUp(restaurantUser , context)
                             // for test the project i put here also moving to next page even if the time is after closing
-//                            val intent = Intent(context, DonationListSpecificRestaurant::class.java)
-//                            val bundle = Bundle()
-//                            bundle.putString("restaurant_user_name", restaurantUser.name)
-//                            bundle.putString("organization_user_name", organizationUserName)
-//                            intent.putExtras(bundle)
-//                            context.startActivity(intent)
+                            val intent = Intent(context, DonationListSpecificRestaurant::class.java)
+                            val bundle = Bundle()
+                            bundle.putString("restaurant_user_name", restaurantUser.name)
+                            bundle.putString("organization_user_name", organizationUserName)
+                            intent.putExtras(bundle)
+                            context.startActivity(intent)
                         }
                     }
 

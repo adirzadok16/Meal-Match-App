@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.finalproject_mealmatchapp.R
+import com.example.finalproject_mealmatchapp.Utilities.SharedPreferencesManagerV3
 import com.example.finalproject_mealmatchapp.Utilities.UserManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
@@ -56,14 +57,20 @@ class LoginActivity : AppCompatActivity() {
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
         Log.d("UserInfo", "Name: $name, Email: $email, Password: $password")
+        SharedPreferencesManagerV3.init(this)
+        SharedPreferencesManagerV3.getInstance().putString("isLoggedIn","true")
+        SharedPreferencesManagerV3.getInstance().putString("name",name)
+        SharedPreferencesManagerV3.getInstance().putString("email",email)
+        SharedPreferencesManagerV3.getInstance().putString("password",password)
         if(checkBoxRestaurant.isChecked){
             userManager.login(name,email,password,this,"restaurant_users")
+            SharedPreferencesManagerV3.getInstance().putString("type","restaurant_users")
         }
         if(checkBoxOrganization.isChecked){
             userManager.login(name,email,password,this,"organization_users")
-
-
+            SharedPreferencesManagerV3.getInstance().putString("type","organization_users")
         }
+        SharedPreferencesManagerV3.getInstance().putBoolean("isLoggedIn", true)
     }
 
     private fun clearFieldInLogin() {
@@ -73,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun startRegistration() {
-        var intent = Intent(this, TypeUserActivity::class.java)
+        val intent = Intent(this, TypeUserActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -32,7 +32,7 @@ class PickDonationAdapter(
                 val storageReference : StorageReference = storage.reference
                     .child("restaurants")
                     .child(restaurant_name)
-                    .child("$title.jpg")// Example path
+                    .child(title)// Example path
                 ImageLoader.getInstance().loadFromFirebaseStorage(storageReference,binding.donationIMGIcon)
                 binding.donationLBLTitle.text = title
                 binding.donationLBLTitle.text = title

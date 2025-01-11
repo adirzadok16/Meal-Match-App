@@ -24,6 +24,7 @@ import com.example.finalproject_mealmatchapp.Models.Order
 import com.example.finalproject_mealmatchapp.Organization.Organization_Callbacks.CallBack_pickUpDonation
 import com.example.finalproject_mealmatchapp.R
 import com.example.finalproject_mealmatchapp.Utilities.DB_Manager
+import com.example.finalproject_mealmatchapp.Utilities.SharedPreferencesManagerV3
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -32,6 +33,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -40,10 +43,6 @@ import java.util.Locale
 
 class DonationListSpecificRestaurant : AppCompatActivity() {
 
-//    private lateinit var donation_LBL_title :MaterialTextView
-//    private lateinit var donation_LBL_amount: MaterialTextView
-//    private lateinit var donation_LBL_description:MaterialTextView
-//    private lateinit var donation_BTN_pickUp: MaterialButton
     private lateinit var main_BTN_close : MaterialButton
     private lateinit var main_RV_donationList : RecyclerView
     private lateinit var donation_BTN_sendToRestaurant : MaterialButton
@@ -58,6 +57,7 @@ class DonationListSpecificRestaurant : AppCompatActivity() {
     var donationPicked : Donation? = null
     var donationAdapter = PickDonationAdapter()
     private lateinit var restaurantRef : DatabaseReference
+    val storage = FirebaseStorage.getInstance()
     private var db_manager = DB_Manager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,10 +77,6 @@ class DonationListSpecificRestaurant : AppCompatActivity() {
 
 
     private fun findViews() {
-//        donation_LBL_title = findViewById(R.id.donation_LBL_title)
-//        donation_LBL_amount = findViewById(R.id.donation_LBL_amount)
-//        donation_LBL_description = findViewById(R.id.donation_LBL_description)
-//        donation_BTN_pickUp = findViewById(R.id.donation_BTN_pickUp)
         main_BTN_close = findViewById(R.id.main_BTN_close)
         main_CARD_PickUpDonation = findViewById(R.id.main_CARD_PickUpDonation)
         donation_BTN_sendToRestaurant = findViewById(R.id.donation_BTN_sendToRestaurant)
@@ -92,7 +88,6 @@ class DonationListSpecificRestaurant : AppCompatActivity() {
     }
 
     private fun initViews() {
-//        donation_BTN_pickUp.setOnClickListener{donationWindowChanges("open")}
         main_BTN_close.setOnClickListener{donationWindowChanges("close")}
         donation_BTN_sendToRestaurant.setOnClickListener{sendDonationStatusToRestaurant()}
         main_BTN_return_button.setOnClickListener{returnToSearchRestaurantActivity()}
@@ -104,6 +99,7 @@ class DonationListSpecificRestaurant : AppCompatActivity() {
 
 
     private fun returnToLoginActivity() {
+        SharedPreferencesManagerV3.getInstance().putString("isLoggedIn","false")
         val intent = Intent(this, LoginActivity::class.java)
             // Add these flags to clear the back stack
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -116,6 +112,7 @@ class DonationListSpecificRestaurant : AppCompatActivity() {
         val intent = Intent(this, OrganizationHomePage::class.java)
         val bundle = Bundle()
         bundle.putString("user_name", organizationUserName)
+        bundle.putString("notFirstTime","yes")
         intent.putExtras(bundle)
         startActivity(intent)
         finish()
@@ -236,13 +233,24 @@ class DonationListSpecificRestaurant : AppCompatActivity() {
 
                 // Notify the adapter to update the RecyclerView
                 donationAdapter.notifyDataSetChanged()
+                val photoRef: StorageReference = storage.reference.child("restaurants/$restaurantUserName/${donationPicked?.title}")
+                photoRef.delete()
+                    .addOnSuccessListener {
+                        // File deleted successfully
+                        Log.d("remove image from storage", "File successfully deleted!")
+                    }
+                    .addOnFailureListener { exception ->
+                        // If an error occurred during deletion
+                        Log.e("remove image from storage", "Error deleting file: ${exception.message}")
+                    }
+
 
                 Toast.makeText(this,"Donation deleted successfully", Toast.LENGTH_SHORT).show()
 
             }
             .addOnFailureListener { exception ->
                 // Handle failure
-                Log.e("Firebase", "Failed to delete donation: ${exception.message}")
+                Log.e("remove donation from database", "Failed to delete donation: ${exception.message}")
                 Toast.makeText(this,"Failed to delete donation: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }

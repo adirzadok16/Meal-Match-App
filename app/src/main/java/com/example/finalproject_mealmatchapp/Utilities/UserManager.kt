@@ -10,7 +10,6 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.finalproject_mealmatchapp.Models.OrganizationUser
 import com.example.finalproject_mealmatchapp.Models.RestaurantUser
 import com.example.finalproject_mealmatchapp.Organization.OrganizationHomePage
